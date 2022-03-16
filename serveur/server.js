@@ -11,26 +11,30 @@ app.use(
   })
 );
 
-const upload = multer({ dest: "../public/uploads" });
+app.use(express.json());
+
+const upload = multer({ dest: "public/uploads" });
 
 const users = [];
 
-app.use(express.static("../public"));
+app.use(express.static("public"));
 
 app.get("/users", (req, res) => {
   res.json(users);
 });
 
-app.post("/users/", upload.single("img"), (req, res) => {
-  console.log(req.body);
-  //   users.push(req.body.username);
+app.post("/user", (req, res) => {
+  console.log(req.body.username);
+});
 
-  //   fs.renameSync(
-  //     req.file.path,
-  //     path.join(req.file.destination, req.file.originalname)
-  //   );
+app.post("/users/", upload.single("img"), (req, res) => {
+  console.log(req);
+  fs.renameSync(
+    req.file.path,
+    path.join(req.file.destination, req.file.originalname)
+  );
+
   res.send("Image reçue, c'est sympa merci");
-  res.json(users);
 });
 
 app.listen(8000, () => {
