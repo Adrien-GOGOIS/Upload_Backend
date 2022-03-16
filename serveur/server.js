@@ -13,7 +13,7 @@ app.use(
 
 app.use(express.json());
 
-const upload = multer({ dest: "public/uploads" });
+const upload = multer({ dest: "./public" });
 
 const users = [];
 
@@ -21,10 +21,6 @@ app.use(express.static("public"));
 
 app.get("/users", (req, res) => {
   res.json(users);
-});
-
-app.post("/user", (req, res) => {
-  console.log(req.body.username);
 });
 
 app.post("/users/", upload.single("img"), (req, res) => {
@@ -35,7 +31,7 @@ app.post("/users/", upload.single("img"), (req, res) => {
 
   users.push({
     username: req.body.username,
-    image: req.file.destination + "/" + req.file.originalname,
+    image: "/" + req.file.originalname,
   });
 
   res.json(users);
