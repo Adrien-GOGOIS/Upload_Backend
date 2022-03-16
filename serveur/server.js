@@ -28,13 +28,18 @@ app.post("/user", (req, res) => {
 });
 
 app.post("/users/", upload.single("img"), (req, res) => {
-  console.log(req);
   fs.renameSync(
     req.file.path,
     path.join(req.file.destination, req.file.originalname)
   );
 
-  res.send("Image reçue, c'est sympa merci");
+  users.push({
+    username: req.body.username,
+    image: req.file.destination + "/" + req.file.originalname,
+  });
+
+  res.json(users);
+  console.log(users);
 });
 
 app.listen(8000, () => {
